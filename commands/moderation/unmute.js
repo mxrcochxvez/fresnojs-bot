@@ -1,7 +1,7 @@
 module.exports = {
-    name: "mute",
+    name: "unmute",
     category: "moderation",
-    description: "Mutes annoying people",
+    description: "Unmutes once annoying people",
     run: async (client, message, args) => {
         console.log("activated");
         if(!message.member.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS'])) {
@@ -15,11 +15,11 @@ module.exports = {
             console.log(memberId);
             if(memberId != undefined) {
                 if(can_manage_chans) {
-                    message.author.send(`You cannot mute ${member}, it is likely they have special permissions.`);
+                    message.author.send(`You cannot unmute ${member}, it is likely they have special permissions.`);
                 } else {
                     // This is the part that is not working.
-                    member.roles.add(role);
-                    message.author.send(`You have muted ${args[0]}, you can unmute them using the $unmute <user> command.`)
+                    member.roles.remove(role);
+                    message.author.send(`You have unmuted ${args[0]}, you can mute them again using the $mute <user> command.`);
                 }
             } else {
                 message.author.send("Member not found. Try including the @ symbol followed by their username.");
