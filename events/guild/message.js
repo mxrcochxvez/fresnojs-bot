@@ -9,7 +9,21 @@ module.exports = async (client, message) => {
 
     if (!message.member) message.member = await message.guild.fetchMember(message).catch(err => err);
 
-    const args = message.content.startsWith(prefix) ? message.content.slice(prefix.length).trim().split(/ +/g) : message.content.replace(/[^\s]*/, "").trim().split(/ +/g);
+    const newMessage = message.content.slice(prefix.length).trim();
+	const myRegexp = /[^\s"]+|"([^"]*)"/gi;
+	const myArray = [];
+
+	do {
+		//Each call to exec returns the next regex match as an array
+		var match = myRegexp.exec(newMessage);
+		if (match != null) {
+			//Index 1 in the array is the captured group if it exists
+			//Index 0 is the matched text, which we use if no captured group exists
+			myArray.push(match[1] ? match[1] : match[0]);
+		}
+	} while (match != null);
+
+    const args = myArray;
     const cmd = args.shift().toLowerCase();
 
     if (cmd.length === 0) return;
